@@ -1,0 +1,165 @@
+/*--------------------------------------------------------------
+# Hero Section
+--------------------------------------------------------------*/
+#hero {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(darken($secondary, 10), 0.8);
+  overflow: hidden;
+  position: relative;
+
+  .carousel, .carousel-inner, .carousel-item, .carousel-item::before {
+    position: absolute;
+    top: 0;
+    right:0;
+    left: 0;
+    bottom: 0;
+  }
+
+  .carousel-item {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .carousel-item::before {
+    content: '';
+    background-color: rgba(darken($secondary, 25), 0.6);
+  }
+
+  .carousel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    top: 70px;
+    left: 50px;
+    right: 50px;
+  }
+
+  .container {
+    text-align: center;
+  }
+
+  h2 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 48px;
+    font-weight: 700;
+  }
+
+  p {
+    animation-delay: 0.4s;
+    margin: 0 auto 30px auto;
+    color: #fff;
+  }
+  
+  .carousel-inner {
+    .carousel-item {
+      -webkit-transition-property: opacity;
+      transition-property: opacity;
+      background-position: center top;
+    }
+
+    .carousel-item,
+    .active.carousel-item-start,
+    .active.carousel-item-end {
+      opacity: 0;
+    }
+
+    .active,
+    .carousel-item-next.carousel-item-start,
+    .carousel-item-prev.carousel-item-end {
+      opacity: 1;
+      transition: 0.5s;
+    }
+
+    .carousel-item-next,
+    .carousel-item-prev,
+    .active.carousel-item-start,
+    .active.carousel-item-end {
+      left: 0;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .carousel-control-next-icon, .carousel-control-prev-icon {
+    background: none;
+    font-size: 30px;
+    line-height: 0;
+    width: auto;
+    height: auto;
+    background: rgba($white, .2);
+    border-radius: 50px;
+    transition: 0.3s;
+    color: rgba($white, .5);
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background: rgba($white, .3);
+      color: rgba($white, .8);
+    }
+    
+  }
+
+  .carousel-indicators li {
+    cursor: pointer;
+    background: $white;
+    overflow: hidden;
+    border: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50px;
+    opacity: .6;
+    transition: 0.3s;
+    &.active {
+      opacity: 1;
+      background: $primary;
+    }
+  }
+
+  .btn-get-started {
+    font-family: $font-primary;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 4px;
+    transition: 0.5s;
+    line-height: 1;
+    color: #fff;
+    animation-delay: 0.8s;
+    background: $primary;
+    &:hover {
+      background: lighten($primary, 5);
+    }
+  }
+
+  @media (max-width: 992px) {
+    height: 100vh;
+    .carousel-container {
+      top: 8px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 28px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .carousel-control-prev, .carousel-control-next {
+      width: 5%;
+    }
+  }
+
+  @media (max-height: 500px) {
+    height: 120vh;
+  }
+}
