@@ -6,7 +6,6 @@ var connection = mysql.createConnection({
     database: 'photographers',
     password: 'photo12!@',
     port: '3306'
-        
 })
 
 connection.connect((err)=>{
