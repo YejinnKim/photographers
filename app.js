@@ -6,8 +6,8 @@ const router = require('./routes/route')
 
 app.engine('html', require('ejs').renderFile)
 app.set('view engine', 'html')
-app.set('views', __dirname + '/www')
-app.use(express.static(__dirname + '/www'))
+app.set('views', __dirname + '/views')
+app.use(express.static(__dirname + '/views'))
 
 app.use(router)
 
