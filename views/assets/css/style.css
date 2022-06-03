@@ -57,6 +57,9 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
+.loginSection{
+  background-color: rgba(0, 0, 0, 0.1);
+}
 
 /*--------------------------------------------------------------
 # Main Header
@@ -1917,12 +1920,21 @@ h6 span{
   transform: translateX(44px) rotate(-270deg);
 }
 
+#pwstat {
+  display: none;
+  font-size: 15px;
+  font-weight: 300;
+  float: left;
+  padding-top: 15px;
+  padding-left: 28%;
+}
+
 
 .card-3d-wrap {
   position: relative;
   width: 440px;
   max-width: 100%;
-  height: 400px;
+  height: 500px;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   perspective: 800px;
