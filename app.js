@@ -11,7 +11,7 @@ app.set('views', __dirname + '/views')
 app.use(express.static(__dirname + '/views'))
 app.use(router)
 app.use(bodyParser.json);
-// app.use(bodyParser.urlencoded({extended : true }));
+app.use(bodyParser.urlencoded({extended : true }));
 
 app.listen(port, () => {
     console.log(`start, express server on port ${port}`)
