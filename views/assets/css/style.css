@@ -1255,6 +1255,17 @@ section {
   transition: 0.4s;
   border-radius: 4px;
 }
+.contact .write-form{
+  margin-top: 15px;
+  width: 100%;
+  background: #60d923;
+  border: solid 0.3px #EEE;
+  color: #fff;
+}
+.write-form button[type=button]:hover {
+  background: #e24d55;
+}
+
 .contact .php-email-form button[type=button]:hover {
   background: #e24d55;
 }
@@ -2124,4 +2135,8 @@ h6 span{
 	height: 26px;
 	width: auto;
 	display: block;
+}
+
+.col-lg-4 {
+  color:#111;
 }

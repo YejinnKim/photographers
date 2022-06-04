@@ -24,13 +24,28 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/category/:type', (req, res) => {
+    var sql = `SELECT *, (select img_name from images where img_code = contents.img_code limit 1) as thumb_img FROM contents WHERE category = ${req.params.type}`;
+    conn.query(sql, (err, result) => {
+        res.render('photo_list', { data: result })
+    })
+})
+
 router.get('/content/:idx', async (req, res) => {
-    /*var idx = req.params.idx
-    var sql = 'select * from contents where co_idx = ?'
-    conn.query(sql, idx, (err, result) => {
-        res.render('photos_details', {data: result[0]})
-    })*/
-    res.render('photos_details')
+    var idx = req.params.idx
+    var sql = 'select * from contents where co_idx = ?';
+    var imageSql = 'select * from images where img_code = ?';
+
+    conn.query(sql, idx, (err, result) => {   
+        var data = result[0];
+        conn.query(imageSql, result[0].img_code, (err, results)=>{
+            console.log(data, results);
+            res.render('photos_details', {
+                data: data,
+                imageData: results
+            })
+        } );
+    })
 })
 
 

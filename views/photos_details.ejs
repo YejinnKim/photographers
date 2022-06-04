@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>스튜디오엠오비</title>
+  <title>Photographers</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -45,33 +45,32 @@
       <div class="container">
 
         <div class="row gy-4">
-
-          <div class="col-lg-8">
-            <div class="portfolio-details-slider swiper">
-              <div class="swiper-wrapper align-items-center">
-                <div class="swiper-slide">
-                  <img src="/img/contents/b7d12c30b0948d2ba86c0d4e8952e933.jpg" alt="">
+          
+            <div class="col-lg-8">
+              <div class="portfolio-details-slider swiper">
+                <div class="swiper-wrapper align-items-center">
+                  <% imageData.forEach((value) => { %>
+                  <div class="swiper-slide">
+                    <img src="/img/uploadImages/<%=value.img_name%>" alt="">
+                  </div>
+                  <% }); %>
                 </div>
-
+                <div class="swiper-pagination"></div>
               </div>
-              <div class="swiper-pagination"></div>
             </div>
-          </div>
-
           <div class="col-lg-4">
             <div class="portfolio-info">
-              <h3>Bamki title</h3>
+              <h3><%= data.subject %></h3>
               <ul>
-                <li><strong>Category</strong>: Animal</li>
-                <li><strong>Photographers</strong>: Bamki</li>
-                <li><strong>Write Date</strong>: 2022-05-25</li>
+                <li><strong>Category</strong> : <%= data.category%></li>
+                <li><strong>Photographers</strong> : Bamki</li>
+                <li><strong>Write Date</strong> : <%=data.regDate%></li>
               </ul>
             </div>
             <div class="portfolio-description">
               <h2>Detail</h2>
               <p>
-                이 사진은 제가 찍은 개구리 사진입니다.
-                참 귀엽죠?
+                <%= data.contents %>
               </p>
             </div>
           </div>
