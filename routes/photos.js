@@ -18,9 +18,9 @@ const upload = multer({ storage: storage });
 
 
 router.get('/', (req, res) => {
-    var sql = 'SELECT * FRMO contents'
+    var sql = 'SELECT *, (select img_name from images where img_code = contents.img_code limit 1) as thumb_img FROM contents';
     conn.query(sql, (err, result) => {
-        res.render('photo_list', {data: result})
+        res.render('photo_list', { data: result })
     })
 })
 
