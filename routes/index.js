@@ -3,13 +3,14 @@ const router = express.Router();
 const connection = require('./database');
 
 router.get('/', (req, res) => {
-    const sql = 'SELECT * FROM user';
+    const sql = "SELECT * FROM mainBanner WHERE showYN = 'Y' ";
     
-    connection.query(sql, (err, result) => {
+    connection.query(sql, (err, results) => {
         if(err){
             console.log(err);
         }
-        res.render('index', {users:result});
+        
+        res.render('index', {data :results});
     })
     
 })
