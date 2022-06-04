@@ -52,12 +52,12 @@
                 <li class="dropdown" ><a href="/photos" style="color: #60d923" ><span>Photos</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li><a href="/photos"><span>ALL</span></a></li>
-                        <li><a href="/photos?category=Animal"><span>Animal</span></a>
+                        <li><a href="/photos/category/animal/"><span>Animal</span></a>
                             <!--              <ul>-->
                             <!--                <li><a href="/contents/?ccode=2"><span>aaaaaa</span></a></li>-->
                             <!--              </ul>-->
                         </li>
-                        <li><a href="/photos?category=Landscape"><span>Landscape</span></a>
+                        <li><a href="/photos/category/landscape/"><span>Landscape</span></a>
 
                     </ul>
                 </li>
@@ -87,7 +87,7 @@
                     <li>ALL</li>
                 </ol>
             </div>
-
+            <div class="contact"><button type="button" onclick="location.href='/photos/write/' " class="write-form">글쓰러 가기</button></div>
         </div>
     </section><!-- End Breadcrumbs -->
 
@@ -98,8 +98,8 @@
                 <% data.forEach(function(value) { %>
                     <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                         <div class="portfolio-wrap">
-                            <img src="/img/contents/<%= value.thumb_img %>" class="img-fluid" alt="">
-                            <a href="/photos/<%= value.co_idx %>" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
+                            <img src="/img/uploadImages/<%= value.thumb_img %>" class="img-fluid" alt="">
+                            <a href="/photos/content/<%= value.co_idx %>" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
                             <div class="portfolio-info">
                                 <h4><%= value.subject %></h4>
                             </div>

@@ -98,40 +98,36 @@
         <div class="row">
           <div class="col-lg-6">
             <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-              <!-- <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-                </div>
-              </div> -->
+              <input type="hidden" name="img_code" id="img_code">
               <div class="form-group mt-3">
                 <input type="file" class="form-control" name="uploadFile" id="uploadFile" placeholder="파일을 선택해 주세요." multiple required>
                 <div class="text-center" style="padding-top: 15px;"><button type="button" onclick="imageUpload()">이미지 업로드</button></div>
               </div>
               <div class="form-group mt-3">
-                <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요" required>
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="제목을 입력해주세요" required>
               </div>
               <div class="form-group mt-3">
-                <select name="category" class="form-control" style="text-align: center;">
+                <select name="category" id= "category" class="form-control" style="text-align: center;">
                     <option>==카테고리 선택==</option>
-                    <option>동물</option>
-                    <option>풍경사진</option>
+                    <option value="animal">animal(동물사진)</option>
+                    <option value="landscape">landscape(풍경사진)</option>
                 </select>
               </div>
               <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                <textarea class="form-control" name="contents" id="contents" rows="5" placeholder="사진에 대한 내용을 입력해주세요" required></textarea>
               </div>
               <div class="my-3">
                 <div class="loading">Loading</div>
                 <div class="error-message"></div>
                 <div class="sent-message">Your message has been sent. Thank you!</div>
               </div>
-              <div class="text-center"><button type="button">등록</button></div>
+              <div class="text-center"><button type="button" onclick="writePhotos()">등록</button></div>
             </form>
           </div>
         </div>
+        <div class="row">
+          <div id="uploadImages"></div>
+          </div>
       </div>
     </section><!-- End Contact Section -->
 
