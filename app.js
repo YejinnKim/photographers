@@ -6,6 +6,11 @@ const bodyParser = require('body-parser');
 //const session = require('express-session');
 const router = require('./routes/route');
 
+const multer = require('multer')
+const upload = multer({
+    dest: __dirname+'/uploads/',
+})
+
 app.engine('html', require('ejs').renderFile)
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
