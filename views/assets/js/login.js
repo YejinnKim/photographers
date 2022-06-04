@@ -70,21 +70,22 @@ const signup = () => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-        user_id: userId,
-        user_pw: userPw,
-        user_name: userName,
-        user_email: userMail
-    })
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            user_pw: userPw,
+            user_name: userName,
+            user_email: userMail
+        })
     // if(response.ok){
     //     location.href = "/users/login";
     // }else{
     //     alert('회원가입에 실패하였습니다.');
     // }
     }).then((res) => {
-        if (res.status === 200) {
-            location.href = "/users/login";
+        console.log(res)
+        if (res.status == 200) {
+            location.href = "/login";
         }else{
             return res.json();
         }

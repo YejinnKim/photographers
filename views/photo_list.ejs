@@ -90,86 +90,18 @@
     <section id="portfolio" class="portfolio">
         <div class="container">
             <div class="row portfolio-container">
+                <% data.forEach(function(value) { %>
                     <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                         <div class="portfolio-wrap">
-                            <img src="/img/contents/0e424ffc42341989292297d640aac2c6.jpg" class="img-fluid" alt="">
-                            <a href="/photos_details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
+                            <img src="/img/contents/<%= value.thumb_img %>" class="img-fluid" alt="">
+                            <a href="/photos/<%= value.co_idx %>" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
                             <div class="portfolio-info">
-                                <h4>Bamki's Photo</h4>
+                                <h4><%= value.subject %></h4>
                             </div>
                             </a>
                         </div>
                     </div>
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-wrap">
-                        <img src="/img/contents/0e424ffc42341989292297d640aac2c6.jpg" class="img-fluid" alt="">
-                        <a href="/photos_details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
-                            <div class="portfolio-info">
-                                <h4>Bamki's Photo</h4>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-wrap">
-                        <img src="/img/contents/0e424ffc42341989292297d640aac2c6.jpg" class="img-fluid" alt="">
-                        <a href="/photos_details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
-                            <div class="portfolio-info">
-                                <h4>Bamki's Photo</h4>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-wrap">
-                        <img src="/img/contents/0e424ffc42341989292297d640aac2c6.jpg" class="img-fluid" alt="">
-                        <a href="/photos_details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
-                            <div class="portfolio-info">
-                                <h4>Bamki's Photo</h4>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-wrap">
-                        <img src="/img/contents/0e424ffc42341989292297d640aac2c6.jpg" class="img-fluid" alt="">
-                        <a href="/photos_details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
-                            <div class="portfolio-info">
-                                <h4>Bamki's Photo</h4>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-wrap">
-                        <img src="/img/contents/0e424ffc42341989292297d640aac2c6.jpg" class="img-fluid" alt="">
-                        <a href="/photos_details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
-                            <div class="portfolio-info">
-                                <h4>Bamki's Photo</h4>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-wrap">
-                        <img src="/img/contents/0e424ffc42341989292297d640aac2c6.jpg" class="img-fluid" alt="">
-                        <a href="/photos_details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
-                            <div class="portfolio-info">
-                                <h4>Bamki's Photo</h4>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-wrap">
-                        <img src="/img/contents/0e424ffc42341989292297d640aac2c6.jpg" class="img-fluid" alt="">
-                        <a href="/photos_details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
-                            <div class="portfolio-info">
-                                <h4>Bamki's Photo</h4>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                <% }) %>
 <!--                    <tr>-->
 <!--                        <td colspan="7" class="nodata">[현재 등록된 자료가 없습니다.]</td>-->
 <!--                    </tr>-->
