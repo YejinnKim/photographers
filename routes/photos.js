@@ -2,8 +2,10 @@ const express = require('express')
 const router = express.Router()
 const conn = require('./database')
 
-router.get('/', (req, res) => {
-    var sql = 'SELECT * FRMO contents'
+router.get('/', async (req, res) => {
+    var query = req.query.category
+    var sql = 'SELECT * FROM contents'
+    
     conn.query(sql, (err, result) => {
         res.render('photo_list', {data: result})
     })
