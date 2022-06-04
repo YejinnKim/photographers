@@ -1244,13 +1244,10 @@ section {
 .contact .php-email-form input:focus, .contact .php-email-form textarea:focus {
   border-color: #60d923;
 }
-.contact .php-email-form input {
-  height: 44px;
-}
 .contact .php-email-form textarea {
   padding: 10px 12px;
 }
-.contact .php-email-form button[type=submit] {
+.contact .php-email-form button[type=button] {
   background: #60d923;
   border: 0;
   padding: 10px 24px;
@@ -1258,7 +1255,7 @@ section {
   transition: 0.4s;
   border-radius: 4px;
 }
-.contact .php-email-form button[type=submit]:hover {
+.contact .php-email-form button[type=button]:hover {
   background: #e24d55;
 }
 @-webkit-keyframes animate-loading {
