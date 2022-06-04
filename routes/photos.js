@@ -35,11 +35,12 @@ const upload = multer({ storage: storage });
 
 
 router.get('/', async (req, res) => {
+    var user = req.session.user
     var query = req.query.category
     var sql = 'SELECT * FROM contents'
     
     conn.query(sql, (err, result) => {
-        res.render('photo_list', {data: result})
+        res.render('photo_list', {data: result, user: user})
     })
 })
 

@@ -3,15 +3,8 @@ const router = express.Router();
 const connection = require('./database');
 
 router.get('/', (req, res) => {
-    const sql = 'SELECT * FROM user';
-    
-    connection.query(sql, (err, result) => {
-        if(err){
-            console.log(err);
-        }
-        res.render('index', {users:result});
-    })
-    
+    var user = req.session.user
+    res.render('index', {user: user});
 })
 
 module.exports = router

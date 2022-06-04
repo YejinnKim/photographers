@@ -1,11 +1,10 @@
 const express = require('express')
 const app = express()
 const port = 3000
-
-const bodyParser = require('body-parser');
-//const session = require('express-session');
 const router = require('./routes/route');
 
+const bodyParser = require('body-parser');
+const session = require('express-session');
 const multer = require('multer')
 const upload = multer({
     dest: __dirname+'/uploads/',
@@ -17,6 +16,11 @@ app.set('views', __dirname + '/views')
 app.use(express.static(__dirname + '/views'))
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended : true }));
+app.use(session({
+    secret: '123',
+    resave: true,
+    saveUninitialized: true
+}))
 
 app.use(router)
 

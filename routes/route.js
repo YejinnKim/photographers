@@ -14,4 +14,12 @@ router.use('/photos', photos)
 router.use('/mypage', mypage)
 router.use('/login', login)
 
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) throw err;
+        req.session
+    })
+    res.redirect('/')
+})
+
 module.exports = router;
