@@ -4,9 +4,10 @@ const conn = require('./database')
 
 router.get('/', (req, res) => {
     var user = req.session.user
-    var sql = 'SELECT * FROM user'
+    var sql = `SELECT * FROM user WHERE user_id = '${user.id}'`
     conn.query(sql, (err, result) => {
-        res.render('mypage', {data: result, user: user})
+        console.log(result)
+        res.render('mypage', {data: result[0], user: user})
     })
 })
 

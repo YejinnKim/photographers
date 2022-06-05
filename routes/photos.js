@@ -3,6 +3,7 @@ const router = express.Router()
 const conn = require('./database')
 const multer = require('multer')
 const path=require("path");
+const { redirect } = require('express/lib/response');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -26,13 +27,15 @@ router.get('/', (req, res) => {
 })
 
 router.get('/category/:type', (req, res) => {
-    var sql = `SELECT *, (select img_name from images where img_code = contents.img_code limit 1) as thumb_img FROM contents WHERE category = ${req.params.type}`;
+    var user = req.session.user
+    var sql = `SELECT *, (select img_name from images where img_code = contents.img_code limit 1) as thumb_img FROM contents WHERE category = '${req.params.type}'`;
     conn.query(sql, (err, result) => {
-        res.render('photo_list', { data: result })
+        res.render('photo_list', { data: result, user: user })
     })
 })
 
 router.get('/content/:idx', async (req, res) => {
+    var user = req.session.user
     var idx = req.params.idx
     var sql = 'select * from contents where co_idx = ?';
     var imageSql = 'select * from images where img_code = ?';
@@ -43,7 +46,8 @@ router.get('/content/:idx', async (req, res) => {
             console.log(data, results);
             res.render('photos_details', {
                 data: data,
-                imageData: results
+                imageData: results,
+                user: user
             })
         } );
     })
@@ -51,12 +55,14 @@ router.get('/content/:idx', async (req, res) => {
 
 
 router.get('/write', (req,res) => {
-    res.render('photo_write');
+    var user = req.session.user
+    if (!user) res.redirect('/login')
+    res.render('photo_write', {user: user});
 })
 
 router.post('/write', (req,res) => {
     var data = req.body;
-    var sql = ` INSERT INTO contents ( category, img_code, subject, contents) VALUES ( '${data.category}', '${data.img_code}', '${data.subject}', '${data.contents}')`;
+    var sql = ` INSERT INTO contents ( category, img_code, subject, contents, user_id) VALUES ( '${data.category}', '${data.img_code}', '${data.subject}', '${data.contents}', '${req.session.user.id}')`;
     conn.query(sql, (error, results, fields) => {
         if(error){
             res.status(400).send({message : "database error"});
@@ -102,7 +108,13 @@ router.post('/write/imageUpload/', upload.array('uploadFile'), (req, res, next) 
     })
 })
 
-
+router.get('/delete/:idx', async (req, res) => {
+    var idx = req.params.idx
+    var sql = 'DELETE FROM contents WHERE co_idx = ?';
+    conn.query(sql, idx, (err, result) => {   
+        res.redirect()
+    })
+})
 
 
 module.exports = router

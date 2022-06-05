@@ -89,42 +89,46 @@
       <div class="container">
         <hr/>
         <div class="main_profile" >
-          <img src="/assets/img/team/team-1.jpg" alt="my profile" style="width: 40%; margin: 0 auto;">
+          <img src="/assets/img/team/<%= data.profile_image %>" alt="my profile" style="width: 40%; margin: 0 auto;">
         </div>
         <hr/>
         <div class="row mt-5" >
           <div class="col-lg-8 mt-5 mt-lg-0" >
             <form action="/contact/mailSend" method="post" role="form" class="php-email-form" >
 
+              <div class="form-group mt-3">
+                <input type="text" class="form-control" name="user_id" id="user_id" value="<%= data.user_id %>" required readonly>
+              </div>
+
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <input type="text" name="password" class="form-control" id="password" placeholder="Your Password" required>
+                  <input type="password" name="password" class="form-control" id="password" placeholder="Your Password" required style="width: 365px; margin-left: 12px;">
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="password" class="form-control" name="password_check" id="password_check" placeholder="Your Password Check" required>
+                  <input type="password" class="form-control" name="password_check" id="password_check" placeholder="Your Password Check" required style="width: 365px; margin-left: 3px;">
                 </div>
               </div>
 
               <div class="form-group mt-3">
-                <input type="text" class="form-control" name="user_name" id="user_name" placeholder="Your Name" required>
+                <input type="text" class="form-control" name="user_name" id="user_name" value="<%= data.user_name %>" required>
               </div>
 
               <div class="form-group mt-3">
-                <input type="text" class="form-control" name="user_id" id="user_id" placeholder="Your ID" required>
-              </div>
-
-              <div class="form-group mt-3">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                <input type="text" class="form-control" name="subject" id="subject" value="<%= data.user_email %>" required>
               </div>
               <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                <textarea class="form-control" name="message" rows="5" placeholder="Message" required>
+                  <% if (data.user_intro) { %>
+                    <%= data.user_intro %>
+                  <% } %>
+                </textarea>
               </div>
               <div class="my-3">
                 <div class="loading">Loading</div>
                 <div class="error-message"></div>
                 <div class="sent-message">메시지 전송에 성공하였습니다.</div>
               </div>
-              <div class="text-center"><button type="submit">Edit Profile</button></div>
+              <div class="text-center"><button type="submit" style="border: 0; padding: 5px 10px;">Edit Profile</button></div>
             </form>
           </div>
         </div>

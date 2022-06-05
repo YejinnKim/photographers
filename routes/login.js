@@ -1,4 +1,5 @@
 const express = require('express');
+const { colours } = require('nodemon/lib/config/defaults');
 const router = express.Router();
 const connection = require('./database');
 
@@ -13,9 +14,11 @@ router.post('/:type', (req, res) => {
         var sql = `SELECT * FROM user WHERE user_id = '${user.user_id}' and user_pw = '${user.user_pw}'`
         connection.query(sql, (error, results, fields) => {
             if (error) throw error;
-            req.session.user = {
-                id: user.user_id,
-                pw: user.user_pw
+            if(results[0]) {
+                req.session.user = {
+                    id: user.user_id,
+                    pw: user.user_pw
+                }
             }
             res.redirect('/')
         })

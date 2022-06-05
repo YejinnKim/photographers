@@ -39,7 +39,6 @@
 <body>
 
   <main id="main">
-
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
       <div class="container">
@@ -60,10 +59,14 @@
             </div>
           <div class="col-lg-4">
             <div class="portfolio-info">
-              <h3><%= data.subject %></h3>
+              <h3><%= data.subject %> 
+                <% if (user && data.user_id == user.id) { %>
+                <button onclick="location.href='/photos/delete/<%= data.co_idx %>'" style="border: 0; font-size: 5px;">DEL</button>
+                <% } %>
+              </h3>
               <ul>
                 <li><strong>Category</strong> : <%= data.category%></li>
-                <li><strong>Photographers</strong> : Bamki</li>
+                <li><strong>Photographers</strong> : <%= data.user_id %></li>
                 <li><strong>Write Date</strong> : <%=data.regDate%></li>
               </ul>
             </div>
