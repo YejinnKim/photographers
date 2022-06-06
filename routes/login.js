@@ -2,9 +2,16 @@ const express = require('express');
 const { colours } = require('nodemon/lib/config/defaults');
 const router = express.Router();
 const connection = require('./database');
+const header = "login";
 
 router.get('/', (req, res) => {
-    res.render('login')
+    var user = req.session.user;
+    console.log(user);
+    //이미 로긴 중일때는 로긴 페이지 접속 불가능
+    if(user){
+        res.redirect('/');
+    }
+    res.render('login', {user:null, url:header})
 })
 
 router.post('/:type', (req, res) => {

@@ -4,6 +4,7 @@ const conn = require('./database')
 const multer = require('multer')
 const path=require("path");
 const { redirect } = require('express/lib/response');
+const header = "photos";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -22,7 +23,7 @@ router.get('/', (req, res) => {
     var user = req.session.user
     var sql = 'SELECT *, (select img_name from images where img_code = contents.img_code limit 1) as thumb_img FROM contents';
     conn.query(sql, (err, result) => {
-        res.render('photo_list', { data: result, user: user })
+        res.render('photo_list', { data: result, user: user, url:header })
     })
 })
 
@@ -30,7 +31,7 @@ router.get('/category/:type', (req, res) => {
     var user = req.session.user
     var sql = `SELECT *, (select img_name from images where img_code = contents.img_code limit 1) as thumb_img FROM contents WHERE category = '${req.params.type}'`;
     conn.query(sql, (err, result) => {
-        res.render('photo_list', { data: result, user: user })
+        res.render('photo_list', { data: result, user: user, url: header })
     })
 })
 
@@ -57,7 +58,7 @@ router.get('/content/:idx', async (req, res) => {
 router.get('/write', (req,res) => {
     var user = req.session.user
     if (!user) res.redirect('/login')
-    res.render('photo_write', {user: user});
+    res.render('photo_write', {user: user, url:header});
 })
 
 router.post('/write', (req,res) => {
