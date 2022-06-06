@@ -25,6 +25,8 @@
   <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
+  <script src="https://kit.fontawesome.com/7e7733aed3.js" crossorigin="anonymous"></script>
+
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
 
@@ -59,6 +61,7 @@
             </div>
           <div class="col-lg-4">
             <div class="portfolio-info">
+              <input type="hidden" name="co_idx" id="co_idx" value="<%=data.co_idx%>">
               <h3><%= data.subject %> 
                 <% if (user && data.user_id == user.id) { %>
                 <button onclick="location.href='/photos/delete/<%= data.co_idx %>'" style="border: 0; font-size: 5px;">DEL</button>
@@ -76,6 +79,28 @@
                 <%= data.contents %>
               </p>
             </div>
+            <div class="portfolio-description">
+              <h2>Like</h2>
+              <% 
+              if(likeData.length != 0){
+              likeData.forEach((value) => { %>
+                <% if(value.type == 'heart'){ %>
+                <a class="like likeOn" onclick="likeThis('heart');" data-status="1" id="heart"><i class="fa-regular fa-heart"></i></a>
+                <% } else if(value.type == 'likes'){ %>
+                <a class="like likeOn" onclick="likeThis('likes');" data-status="1" id="likes"><i class="fa-regular fa-thumbs-up"></i></a>
+                <% } else if(value.type == 'wow'){ %>
+                <a class="like likeOn" onclick="likeThis('wow');" data-status="1" id="wow"><i class="fa-regular fa-face-flushed"></i></a>
+                <% } else if(value.type == 'star'){ %>
+                <a class="like likeOn" onclick="likeThis('star');" data-status="1" id="star"><i class="fa-regular fa-face-grin-stars"></i></a>
+                <% } %>
+              <% })
+            }else{ %>
+              <a class="like" onclick="likeThis('heart');" data-status="0" id="heart"><i class="fa-regular fa-heart"></i></a>
+              <a class="like" onclick="likeThis('likes');" data-status="0" id="likes"><i class="fa-regular fa-thumbs-up"></i></a>
+              <a class="like" onclick="likeThis('wow');" data-status="0" id="wow"><i class="fa-regular fa-face-flushed"></i></a>
+              <a class="like" onclick="likeThis('star');" data-status="0" id="star"><i class="fa-regular fa-face-grin-stars"></i></a>
+              <% } %>
+            </div>
           </div>
         </div>
       </div>
@@ -92,8 +117,58 @@
   <script src="/assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="/assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="/assets/js/main.js"></script>
+  <script>
+    const likeThis = (type) => {
+    var co_idx = document.getElementById('co_idx').value;
+    var status = document.querySelector("#"+type);
+    var url;
+
+    if(status.dataset.status == 0){
+      let response = fetch(`/photos/like`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            type: type,
+            co_idx: co_idx
+        })
+      }).then((res) => {
+          if (res.status === 200) {
+              //색칠하기
+              document.getElementById(type).className += ' likeOn';
+              status.dataset.status =1;
+          }else{
+              return res.json();
+          }
+      }).then((data) => {
+          alert(data.message);
+      })
+    }else{
+      let response = fetch(`/photos/likeCancel`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            type: type,
+            co_idx: co_idx
+        })
+      }).then((res) => {
+        if (res.status === 200) {
+            //색빼기
+            document.getElementById(type).className = ' like';
+            status.dataset.status = 0;
+
+        }else{
+            return res.json();
+        }
+      }).then((data) => {
+        alert(data.message);
+      })
+    }
+    }
+  </script>
 
 </body>
 

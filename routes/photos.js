@@ -40,17 +40,24 @@ router.get('/content/:idx', async (req, res) => {
     var idx = req.params.idx
     var sql = 'select * from contents where co_idx = ?';
     var imageSql = 'select * from images where img_code = ?';
+    var likeSql = 'select * from likes where user_id = ?';
 
     conn.query(sql, idx, (err, result) => {   
         var data = result[0];
+
         conn.query(imageSql, result[0].img_code, (err, results)=>{
-            console.log(data, results);
-            res.render('photos_details', {
-                data: data,
-                imageData: results,
-                user: user
+            var imageData = results;
+
+            conn.query(likeSql, user.id, (err, results)=>{
+                console.log(results);
+                res.render('photos_details', {
+                    data: data,
+                    imageData: imageData,
+                    user: user,
+                    likeData: results
+                })
             })
-        } );
+        });
     })
 })
 
@@ -114,6 +121,52 @@ router.get('/delete/:idx', async (req, res) => {
     var sql = 'DELETE FROM contents WHERE co_idx = ?';
     conn.query(sql, idx, (err, result) => {   
         res.redirect()
+    })
+})
+
+
+router.post('/like', (req, res) => {
+    var data = req.body;
+
+    var sql = ` INSERT INTO likes ( co_idx, type, user_id ) VALUES ( ${data.co_idx}, '${data.type}', '${req.session.user.id}')`;
+    conn.query(sql, (error, results, fields) => {
+        if(error){
+            console.log(sql);
+            res.status(400).send({message : "database error"});
+            return;
+        }
+
+        var sql2 = ` UPDATE contents SET ${data.type} = ${data.type}+1 WHERE co_idx = ${data.co_idx}`;
+        conn.query(sql2, (error, results, fields) => {
+            if(error){
+                console.log(sql2);
+                res.status(400).send({message : "database error"});
+                return;
+            }
+        });
+        res.status(200).send({message: "success"});
+    })
+})
+
+router.post('/likeCancel', (req, res) => {
+    var data = req.body;
+
+    var sql = ` DELETE FROM likes WHERE co_idx = ${data.co_idx} AND type =  '${data.type}' AND user_id = '${req.session.user.id}' `;
+    conn.query(sql, (error, results, fields) => {
+        if(error){
+            console.log(sql);
+            res.status(400).send({message : "database error"});
+            return;
+        }
+        var sql2 = ` UPDATE contents SET ${data.type} = ${data.type}-1 WHERE co_idx = ${data.co_idx}`;
+        conn.query(sql2, (error, results, fields) => {
+            if(error){
+                console.log(sql2);
+                res.status(400).send({message : "database error"});
+                return;
+            }
+        });
+        res.status(200).send({message: "success"});
     })
 })
 

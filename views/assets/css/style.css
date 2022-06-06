@@ -2140,3 +2140,11 @@ h6 span{
 .col-lg-4 {
   color:#111;
 }
+
+.like{
+  font-size: 3rem;
+}
+
+.likeOn{
+  color: #f00;
+}
