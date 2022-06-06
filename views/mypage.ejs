@@ -17,13 +17,24 @@
     <section id="contact" class="contact">
       <div class="container">
         <hr/>
-        <div class="main_profile" >
-          <img src="/assets/img/team/<%= data.profile_image %>" alt="my profile" style="width: 40%; margin: 0 auto;">
+        <div class="main_profile" id="main_img">
+        <% if (data.profile_image) { %>
+            <img src="/assets/img/team/<%= data.profile_image %>" alt="my profile" style="width: 40%; margin: 0 auto;">
+        <% } %>
+        </div>
+        <div class="row">
+            <div id="uploadImages"></div>
         </div>
         <hr/>
         <div class="row mt-5" >
           <div class="col-lg-8 mt-5 mt-lg-0" >
             <form action="/contact/mailSend" method="post" role="form" class="php-email-form" >
+              <input type="hidden" name="img_code" id="img_code">
+
+              <div class="form-group mt-3">
+                <input type="file" class="form-control" name="uploadFile" id="uploadFile" placeholder="파일을 선택해 주세요." multiple required>
+                <div class="text-center" style="padding-top: 15px;"><button type="button" onclick="imageUpload()">프로필 이미지 업로드</button></div>
+              </div>
 
               <div class="form-group mt-3">
                 <input type="text" class="form-control" name="user_id" id="user_id" value="<%= data.user_id %>" required readonly>
@@ -43,10 +54,10 @@
               </div>
 
               <div class="form-group mt-3">
-                <input type="text" class="form-control" name="subject" id="subject" value="<%= data.user_email %>" required>
+                <input type="text" class="form-control" name="user_email" id="user_email" value="<%= data.user_email %>" required>
               </div>
               <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message" required>
+                <textarea class="form-control" name="message" id="message" rows="5" placeholder="Message" required>
                   <% if (data.user_intro) { %>
                     <%= data.user_intro %>
                   <% } %>
@@ -57,7 +68,7 @@
                 <div class="error-message"></div>
                 <div class="sent-message">메시지 전송에 성공하였습니다.</div>
               </div>
-              <div class="text-center"><button type="submit" style="border: 0; padding: 5px 10px;">Edit Profile</button></div>
+              <div class="text-center" style="padding-top: 15px;"><button type="button" onclick="updateUser(); return">프로필 정보 편집</button></div>
             </form>
           </div>
         </div>

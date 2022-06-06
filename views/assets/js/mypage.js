@@ -1,30 +1,63 @@
-/* const signup = () => {
+function imageUpload(){
+    const uploadFile = new FormData();
+    var imgCode = new Date().getTime().toString(36);
+    var src = document.getElementById("uploadImages");
+    const photos = document.querySelector('input[type="file"][multiple]');
+    var rm = document.getElementById("main_img");
+    rm.removeChild(rm.childNodes[0]);
+    // uploadFile.append(`uploadFile`, photos.files);
 
-    var userId = document.getElementById("regid").value;
-    var userPw = document.getElementById("regpass").value;
-    var userPw2 = document.getElementById("regpass2").value;
-    var userMail = document.getElementById("regmail").value;
-    var userName = document.getElementById("regname").value;
-    
-    if(!userId || !userPw || !userPw2 || !userName || !userMail ){
+    for (let i = 0; i < photos.files.length; i++) {
+        uploadFile.append('uploadFile', photos.files[i])
+    }
+
+    uploadFile.append('imageCode', imgCode);
+
+    console.log(uploadFile);
+
+    fetch('/mypage/imageUpload', {
+    method: 'POST',
+    body: uploadFile,
+    })
+    .then((response) => response.json())
+    .then((result) => {
+        if(result.message === "success"){
+            
+            for(var i=0; i < result.fileInfo.length; i++){
+                var img = document.createElement("img"); 
+                img.src = "/img/uploadImages/" + result.fileInfo[i].filename;
+                src.appendChild(img);
+            }
+
+            document.getElementById('img_code').value = imgCode;
+            console.log(result.fileInfo);
+        }
+    })
+    .catch((error) => {
+    console.error('실패:', error);
+    });
+}
+
+function updateUser() {
+    var userId = document.getElementById("user_id").value;
+    var userPw = document.getElementById("password").value;
+    var userPw2 = document.getElementById("password_check").value;
+    var userMail = document.getElementById("user_email").value;
+    var userName = document.getElementById("user_name").value;
+    var userintro = document.getElementById("message").value;
+    var img_code = document.getElementById("img_code").value;
+console.log('update')
+    if(!userId || !userPw || !userPw2 || !userName || !userMail){
         alert('모든 값을 입력해주세요.');
         return false;
     }
-
-    if(userPw !='' && userPw2 !=''){
-        if(userPw != userPw2){
-            alert('비밀번호와 비밀번호 확인 부분이 일치하지 않습니다.');
-            return false;
-        }
-    }
-
     if(userPw != userPw2){
         alert('비밀번호와 비밀번호 확인값이 맞지 않습니다.');
         return false;
     }
 
-    fetch(`/login/signup`, {
-        method: "POST",
+    fetch(`/mypage`, {
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
@@ -32,21 +65,18 @@
             user_id: userId,
             user_pw: userPw,
             user_name: userName,
-            user_email: userMail
+            user_email: userMail,
+            user_intro: userintro, 
+            profile_image: img_code
         })
-    // if(response.ok){
-    //     location.href = "/users/login";
-    // }else{
-    //     alert('회원가입에 실패하였습니다.');
-    // }
     }).then((res) => {
         console.log(res)
         if (res.status == 200) {
-            location.href = "/login";
+            location.href = "/mypage";
         }else{
             return res.json();
         }
     }).then((data) => {
         alert(data.message);
     })
-}; */
+}
