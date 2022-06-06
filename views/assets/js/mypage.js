@@ -4,8 +4,8 @@ function imageUpload(){
     var src = document.getElementById("uploadImages");
     const photos = document.querySelector('input[type="file"][multiple]');
     var rm = document.getElementById("main_img");
-    rm.removeChild(rm.childNodes[0]);
-    // uploadFile.append(`uploadFile`, photos.files);
+    if (rm.childNodes[1])
+        rm.removeChild(rm.childNodes[1]);
 
     for (let i = 0; i < photos.files.length; i++) {
         uploadFile.append('uploadFile', photos.files[i])
@@ -28,8 +28,6 @@ function imageUpload(){
                 img.src = "/img/uploadImages/" + result.fileInfo[i].filename;
                 src.appendChild(img);
             }
-
-            document.getElementById('img_code').value = imgCode;
             console.log(result.fileInfo);
         }
     })
@@ -44,9 +42,10 @@ function updateUser() {
     var userPw2 = document.getElementById("password_check").value;
     var userMail = document.getElementById("user_email").value;
     var userName = document.getElementById("user_name").value;
-    var userintro = document.getElementById("message").value;
-    var img_code = document.getElementById("img_code").value;
-console.log('update')
+    var userintro
+    if (document.getElementById("message"))
+        userintro = document.getElementById("message").value;
+    
     if(!userId || !userPw || !userPw2 || !userName || !userMail){
         alert('모든 값을 입력해주세요.');
         return false;
@@ -66,8 +65,7 @@ console.log('update')
             user_pw: userPw,
             user_name: userName,
             user_email: userMail,
-            user_intro: userintro, 
-            profile_image: img_code
+            user_intro: userintro
         })
     }).then((res) => {
         console.log(res)

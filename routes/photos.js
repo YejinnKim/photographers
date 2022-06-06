@@ -40,27 +40,35 @@ router.get('/content/:idx', async (req, res) => {
     var idx = req.params.idx
     var sql = 'select * from contents where co_idx = ?';
     var imageSql = 'select * from images where img_code = ?';
-    var likeSql = 'select * from likes where user_id = ?';
-
+    var likeSql = 'select * from likes where user_id = ? and co_idx = ?';
+    
     conn.query(sql, idx, (err, result) => {   
         var data = result[0];
-
+    
         conn.query(imageSql, result[0].img_code, (err, results)=>{
             var imageData = results;
-
-            conn.query(likeSql, user.id, (err, results)=>{
-                console.log(results);
+            
+            if (!user) {
                 res.render('photos_details', {
                     data: data,
                     imageData: imageData,
-                    user: user,
-                    likeData: results
+                    user: 0,
+                    likeData: 0
                 })
-            })
-        });
+            } else {
+                conn.query(likeSql, [user.id, idx], (err, results)=>{
+                    res.render('photos_details', {
+                        data: data,
+                        imageData: imageData,
+                        user: user,
+                        likeData: results
+                    })
+                })
+            }
+        })
+
     })
 })
-
 
 router.get('/write', (req,res) => {
     var user = req.session.user
@@ -116,7 +124,7 @@ router.post('/write/imageUpload/', upload.array('uploadFile'), (req, res, next) 
     })
 })
 
-router.get('/delete/:idx', async (req, res) => {
+router.delete('/:idx', async (req, res) => {
     var idx = req.params.idx
     var sql = 'DELETE FROM contents WHERE co_idx = ?';
     conn.query(sql, idx, (err, result) => {   
@@ -127,6 +135,7 @@ router.get('/delete/:idx', async (req, res) => {
 
 router.post('/like', (req, res) => {
     var data = req.body;
+    if (!req.session.user) res.redirect('/login')
 
     var sql = ` INSERT INTO likes ( co_idx, type, user_id ) VALUES ( ${data.co_idx}, '${data.type}', '${req.session.user.id}')`;
     conn.query(sql, (error, results, fields) => {
@@ -150,6 +159,7 @@ router.post('/like', (req, res) => {
 
 router.post('/likeCancel', (req, res) => {
     var data = req.body;
+    if (!req.session.user) res.redirect('/login')
 
     var sql = ` DELETE FROM likes WHERE co_idx = ${data.co_idx} AND type =  '${data.type}' AND user_id = '${req.session.user.id}' `;
     conn.query(sql, (error, results, fields) => {

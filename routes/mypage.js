@@ -4,6 +4,7 @@ const conn = require('./database')
 const multer = require('multer')
 const path=require("path");
 const header = "mypage"
+var img;
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -26,8 +27,6 @@ router.get('/', (req, res) => {
 })
 
 router.post('/imageUpload', upload.array('uploadFile'), (req, res, next) => {
-    // var data  = req.body;
-    console.log("body 데이터 : ", req.files);
     if(!req.files)
     {
         res.status(400).send({message : "File was not found"});
@@ -41,6 +40,7 @@ router.post('/imageUpload', upload.array('uploadFile'), (req, res, next) => {
                 res.status(400).send({message : "database error"});
                 return;
             }
+            img = data.filename;
             let result_index = results.insertId;
             console.log(result_index);
         })
@@ -52,10 +52,16 @@ router.post('/imageUpload', upload.array('uploadFile'), (req, res, next) => {
     })
 })
 
-router.put('/mypage', (req, res) => {
-    var sql = `UPDATE user SET (user_pw, user_name, user_email, profile_image, user_intro) = ('${req.body.user_pw}', '${req.body.user_name}', '${req.body.user_email}', '${req.body.profile_image}', '${req.body.user_intro}') WHERE user_id = '${req.body.user_id}'`
+router.put('/', (req, res) => {
+    var sql = `UPDATE user SET user_pw='${req.body.user_pw}', user_name='${req.body.user_name}', user_email='${req.body.user_email}'`
+    if (img)
+        sql += `, profile_image='${img}'`;
+    if (req.body.user_intro)
+        sql += `, user_intro='${req.body.user_intro}'`;
+    sql += `WHERE user_id = '${req.body.user_id}'`
+    
     conn.query(sql, (err, result) => {
-        if(error){
+        if(err){
             res.status(400).send({message : "database error"});
             return;
         }
