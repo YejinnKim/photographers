@@ -64,7 +64,7 @@
               <input type="hidden" name="co_idx" id="co_idx" value="<%=data.co_idx%>">
               <h3><%= data.subject %> 
                 <% if (user && data.user_id == user.id) { %>
-                <button type="button" onclick="DeletePhotos()" style="border: 0; font-size: 5px;">DEL</button>
+                <button onclick="location.href='/photos/delete/<%= data.co_idx %>'" style="border: 0; font-size: 5px;">DEL</button>
                 <% } %>
               </h3>
               <ul>
@@ -81,19 +81,51 @@
             </div>
             <div class="portfolio-description">
               <h2>Like</h2>
-              <% if (likeData.length == 0 || !likeData) { %>
+              <% 
+              var heart = 0;
+              var likes = 0;
+              var wow = 0;
+              var star = 0;
+
+              if(likeData.length != 0){
+              likeData.forEach((value) => { %>
+                <% if(value.type == 'heart'){ heart = 1; %>
+                  <a class="like likeOn" onclick="likeThis('heart');" data-status="1" id="heart">
+                      <i class="fa-regular fa-heart"></i>
+                  </a>
+                <% } else if(value.type == 'likes'){ likes = 1; %>
+                <a class="like likeOn" onclick="likeThis('likes');" data-status="1" id="likes">
+                  <i class="fa-regular fa-thumbs-up"></i>
+                </a>
+                <% } else if(value.type == 'wow'){ wow = 1; %>
+                <a class="like likeOn" 
+                    onclick="likeThis('wow');" data-status="1" id="wow">
+                    <i class="fa-regular fa-face-flushed"></i>
+                </a>
+                <% } else if(value.type == 'star'){ star = 1; %>
+                <a class="like likeOn" onclick="likeThis('star');" data-status="1" id="star">
+                    <i class="fa-regular fa-face-grin-stars"></i>
+                </a>
+                <% } else { return } %>
+              <% })
+              if(heart == 0 ){ %>
                 <a class="like" onclick="likeThis('heart');" data-status="0" id="heart"><i class="fa-regular fa-heart"></i></a>
+              <% } 
+              if(likes == 0){ %>
                 <a class="like" onclick="likeThis('likes');" data-status="0" id="likes"><i class="fa-regular fa-thumbs-up"></i></a>
+              <% }
+              if(wow == 0){ %>
                 <a class="like" onclick="likeThis('wow');" data-status="0" id="wow"><i class="fa-regular fa-face-flushed"></i></a>
+              <% }
+              if(star == 0){ %>
                 <a class="like" onclick="likeThis('star');" data-status="0" id="star"><i class="fa-regular fa-face-grin-stars"></i></a>
-              <% } else { %>
-                <% likeData.forEach((value) => { %>
-                  <a class="like<% if (value.type == 'heart') { %> likeOn<%}%>" onclick="likeThis('heart');" data-status="1" id="heart"><i class="fa-regular fa-heart"></i></a>
-                  <a class="like<% if (value.type == 'likes') { %> likeOn<% } %>" onclick="likeThis('likes');" data-status="1" id="likes"><i class="fa-regular fa-thumbs-up"></i></a>
-                  <a class="like<% if (value.type == 'wow') { %> likeOn<% } %>" onclick="likeThis('wow');" data-status="1" id="wow"><i class="fa-regular fa-face-flushed"></i></a>
-                  <a class="like<% if (value.type == 'star') { %> likeOn<% } %>" onclick="likeThis('star');" data-status="1" id="star"><i class="fa-regular fa-face-grin-stars"></i></a>
-                <% }) %>
-              <% } %>
+              <% }
+            }else{ %>
+              <a class="like" onclick="likeThis('heart');" data-status="0" id="heart"><i class="fa-regular fa-heart"></i></a>
+              <a class="like" onclick="likeThis('likes');" data-status="0" id="likes"><i class="fa-regular fa-thumbs-up"></i></a>
+              <a class="like" onclick="likeThis('wow');" data-status="0" id="wow"><i class="fa-regular fa-face-flushed"></i></a>
+              <a class="like" onclick="likeThis('star');" data-status="0" id="star"><i class="fa-regular fa-face-grin-stars"></i></a>
+            <% } %>
             </div>
           </div>
         </div>
@@ -162,29 +194,6 @@
       })
     }
     }
-
-    
-  function DeletePhotos() {
-    fetch(`/photos`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            idx: document.getElementById("co_idx").value
-        })
-        }).then((res) => {
-            console.log(res)
-            if (res.status == 200) {
-                alert('등록되었습니다.');
-                location.href = "/photos";
-            }else{
-                return res.json();
-            }
-        }).then((data) => {
-            alert(data.message);
-        })
-  }
   </script>
 
 </body>
