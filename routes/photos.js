@@ -21,18 +21,26 @@ const upload = multer({ storage: storage });
 
 router.get('/', (req, res) => {
     var user = req.session.user
-    var sql = 'SELECT *, (select img_name from images where img_code = contents.img_code limit 1) as thumb_img FROM contents';
-    conn.query(sql, (err, result) => {
-        res.render('photo_list', { data: result, user: user, url:header })
-    })
+    //회원이 아닐경우 로그인 페이지로 이동
+    if(!user){
+        res.redirect('/login');
+    }else{
+        var sql = 'SELECT *, (select img_name from images where img_code = contents.img_code limit 1) as thumb_img FROM contents';
+        conn.query(sql, (err, result) => {
+            res.render('photo_list', { data: result, user: user, url:header })
+        })
+    }
 })
 
 router.get('/category/:type', (req, res) => {
     var user = req.session.user
-    var sql = `SELECT *, (select img_name from images where img_code = contents.img_code limit 1) as thumb_img FROM contents WHERE category = '${req.params.type}'`;
-    conn.query(sql, (err, result) => {
-        res.render('photo_list', { data: result, user: user, url: header })
-    })
+    //회원이 아닐경우 로그인 페이지로 이동
+    if(!user) res.redirect('/login');
+        var sql = `SELECT *, (select img_name from images where img_code = contents.img_code limit 1) as thumb_img FROM contents WHERE category = '${req.params.type}'`;
+        conn.query(sql, (err, result) => {
+            res.render('photo_list', { data: result, user: user, url: header })
+        })
+    
 })
 
 router.get('/content/:idx', async (req, res) => {

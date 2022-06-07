@@ -19,6 +19,8 @@ const upload = multer({ storage: storage });
 
 router.get('/', (req, res) => {
     var user = req.session.user
+    //회원이 아닐경우 로그인 페이지로 이동
+    if(!user) res.redirect('/login');
     var sql = `SELECT * FROM user WHERE user_id = '${user.id}'`
     conn.query(sql, (err, result) => {
         console.log(result)
