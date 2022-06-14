@@ -78,3 +78,14 @@ function updateUser() {
         alert(data.message);
     })
 }
+
+function deleteUser() {
+    fetch('/mypage', {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }).then((res) => {
+        location.href = "/"
+    })
+}

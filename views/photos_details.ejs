@@ -64,7 +64,7 @@
               <input type="hidden" name="co_idx" id="co_idx" value="<%=data.co_idx%>">
               <h3><%= data.subject %> 
                 <% if (user && data.user_id == user.id) { %>
-                <button onclick="location.href='/photos/delete/<%= data.co_idx %>'" style="border: 0; font-size: 5px;">DEL</button>
+                  <button type="button" onclick="DeletePhotos()" style="border: 0; font-size: 5px;">DEL</button>
                 <% } %>
               </h3>
               <ul>
@@ -144,6 +144,22 @@
   <script src="/assets/vendor/php-email-form/validate.js"></script>
 
   <script>
+    const DeletePhotos = () => {
+      fetch(`/photos`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            idx: document.getElementById("co_idx").value
+        })
+      }).then((res) => {
+            if (res.status == 200) {
+                location.href = '/photos'
+            }
+      })
+  }
+
     const likeThis = (type) => {
     var co_idx = document.getElementById('co_idx').value;
     var status = document.querySelector("#"+type);
